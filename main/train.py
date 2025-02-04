@@ -5,7 +5,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
 # Step 1: Preprocessing the Data
-img_size = (128, 128)
+img_size = (224, 224)
 batch_size = 32
 
 # Initialize ImageDataGenerator
@@ -32,7 +32,7 @@ val_data = datagen.flow_from_directory(
 
 # Step 2: Defining the Model
 model = Sequential([
-    Input(shape=(128, 128, 3)),  # Input shape for the images
+    Input(shape=(224, 224, 3)),  # Input shape for the images
     Conv2D(32, (3, 3), activation='relu'),  # Convolutional layer
     MaxPooling2D(2, 2),  # Max pooling layer
     Conv2D(64, (3, 3), activation='relu'),  # Another convolutional layer
@@ -40,7 +40,7 @@ model = Sequential([
     Flatten(),  # Flatten the feature maps
     Dense(128, activation='relu'),  # Fully connected layer
     Dropout(0.5),  # Dropout for regularization
-    Dense(3, activation='softmax')  # Output layer with 3 classes
+    Dense(3, activation='softmax')  # Output layer with 3 classes (apples, banana, oranges)
 ])
 
 # Compile the model
@@ -52,12 +52,16 @@ model.compile(optimizer='adam',
 history = model.fit(
     train_data,                  # Training dataset
     validation_data=val_data,    # Validation dataset
-    epochs=20,                   # Number of epochs
+    epochs=25,                   # Number of epochs
     verbose=1                    # Print progress during training
 )
 
 # Save the trained model
-model.save('fruit_detector_model.keras')
+model.save('fruit_detector_model_224_mini.keras')
+
+# --------------------------------------------------
+# Visualizing Training Progress (Not so important)
+# --------------------------------------------------
 
 # Step 4: Visualizing Training Progress
 # Plot training and validation accuracy
